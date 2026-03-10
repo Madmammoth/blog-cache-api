@@ -5,8 +5,8 @@ from app.core.config import Settings
 settings = Settings()
 
 engine = create_async_engine(
-    settings.db_url.get_secret_value(),
-    echo=True,
+    url=str(settings.dsn),
+    echo=False,
 )
 
 session_maker = async_sessionmaker(
