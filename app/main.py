@@ -1,6 +1,6 @@
-def main():
-    pass
+from fastapi import FastAPI
+from app.api.posts import router as posts_router
 
+app = FastAPI()
 
-if __name__ == "__main__":
-    main()
+app.include_router(posts_router)
