@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from app.schemas.post import PostResponse
+from app.services.post_service import PostService
 
 router = APIRouter(
     prefix="/posts",
@@ -10,4 +11,7 @@ router = APIRouter(
 
 @router.get("/{post_id}", response_model=PostResponse)
 async def get_post(post_id: int):
-    return {"message": "not implemented"}
+    post = await PostService.get_post(post_id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post
