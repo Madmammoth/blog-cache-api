@@ -1,12 +1,18 @@
 from fastapi import APIRouter, HTTPException
 
-from app.schemas.post import PostResponse
+from app.schemas.post import PostResponse, PostCreate
 from app.services.post_service import PostService
 
 router = APIRouter(
     prefix="/posts",
     tags=["posts"],
 )
+
+
+@router.post("", response_model=PostResponse)
+async def create_post(data: PostCreate):
+    post = await PostService.create_post(data)
+    return post
 
 
 @router.get("/{post_id}", response_model=PostResponse)
