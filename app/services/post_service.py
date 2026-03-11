@@ -1,6 +1,6 @@
 import json
 
-from app.cache.redis_config import redis_client
+from app.cache.redis_client import redis_client
 from app.repositories.post_repository import PostRepository
 from app.schemas.post import PostCreate
 

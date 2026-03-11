@@ -1,7 +1,7 @@
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from app.cache.redis_config import redis_client
+from app.cache.redis_client import redis_client
 from app.main import app
 
 

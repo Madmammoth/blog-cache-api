@@ -1,6 +1,6 @@
 import pytest_asyncio
 
-from app.cache.redis_config import redis_client
+from app.cache.redis_client import redis_client
 
 
 @pytest_asyncio.fixture(autouse=True)
