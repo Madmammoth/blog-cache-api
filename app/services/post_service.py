@@ -49,7 +49,7 @@ class PostService:
         if not post:
             return None
 
-        cache_key = f"post: {post_id}"
+        cache_key = f"post:{post_id}"
         await redis_client.delete(cache_key)
 
         return post
