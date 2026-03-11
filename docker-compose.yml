@@ -55,6 +55,19 @@ services:
         max-file: "5"
         compress: "true"
 
+  api:
+    build: .
+    container_name: blog_api
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
 volumes:
   postgres_data:
   redis_data:
