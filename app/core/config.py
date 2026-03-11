@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from pydantic import SecretStr, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
@@ -27,3 +29,11 @@ class Settings(BaseSettings):
             database=self.db,
         )
         return url_obj.render_as_string(hide_password=False)
+
+
+@lru_cache
+def get_settings():
+    return Settings()
+
+
+settings = get_settings()

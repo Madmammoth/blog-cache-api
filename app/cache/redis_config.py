@@ -1,5 +1,7 @@
 import redis.asyncio as redis
 
+from app.core.config import settings
+
 redis_client = redis.Redis(
     host='redis',
     port=6379,
