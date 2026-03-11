@@ -8,3 +8,4 @@ async def clear_cache():
     await redis_client.flushdb()
     yield
     await redis_client.flushdb()
+    await redis_client.aclose()
