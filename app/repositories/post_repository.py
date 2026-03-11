@@ -32,3 +32,13 @@ class PostRepository:
             await session.commit()
             await session.refresh(post)
             return post
+
+    @staticmethod
+    async def delete(post_id: int):
+        async with session_maker() as session:
+            post = await session.get(Post, post_id)
+            if not post:
+                return False
+            await session.delete(post)
+            await session.commit()
+            return True

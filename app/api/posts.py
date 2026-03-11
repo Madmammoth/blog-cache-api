@@ -30,3 +30,13 @@ async def update_post(post_id: int, data: PostCreate):
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
+
+
+@router.delete("/{post_id}", response_model=PostResponse)
+async def delete_post(post_id: int):
+    deleted = await PostService.delete_post(post_id)
+
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    return {"status": "deleted"}

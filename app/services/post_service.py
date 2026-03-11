@@ -53,3 +53,15 @@ class PostService:
         await redis_client.delete(cache_key)
 
         return post
+
+    @staticmethod
+    async def delete_post(post_id: int) -> bool:
+        deleted = await PostRepository.delete(post_id)
+
+        if not deleted:
+            return False
+
+        cache_key = f"post:{post_id}"
+        await redis_client.delete(cache_key)
+
+        return True
