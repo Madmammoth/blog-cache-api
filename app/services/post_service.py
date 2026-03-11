@@ -37,3 +37,19 @@ class PostService:
         )
 
         return post
+
+    @staticmethod
+    async def update_post(post_id: int, data):
+        post = await PostRepository.update(
+            post_id=post_id,
+            title=data.title,
+            content=data.content,
+        )
+
+        if not post:
+            return None
+
+        cache_key = f"post: {post_id}"
+        await redis_client.delete(cache_key)
+
+        return post

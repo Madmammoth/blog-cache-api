@@ -21,3 +21,12 @@ async def get_post(post_id: int):
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return post
+
+
+@router.put("/{post_id}", response_model=PostResponse)
+async def update_post(post_id: int, data: PostCreate):
+    post = await PostService.update_post(post_id, data)
+
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post

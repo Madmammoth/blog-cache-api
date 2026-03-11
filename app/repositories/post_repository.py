@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from app.db.session import session_maker
 from app.models.post import Post
@@ -20,3 +20,16 @@ class PostRepository:
             await session.commit()
             await session.refresh(post)
             return post
+
+    @staticmethod
+    async def update(post_id: int, title: str, content: str):
+        async with session_maker() as session:
+            stmt = (
+                update(Post)
+                .where(Post.id == post_id)
+                .values(title=title, content=content)
+                .returning(Post.id)
+            )
+            result = await session.execute(stmt)
+            await session.commit()
+            return result.scalar_one_or_none()
