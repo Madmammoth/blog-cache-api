@@ -23,9 +23,7 @@ class PostService:
         post_response = PostResponse.model_validate(post)
 
         await redis_client.set(
-            cache_key,
-            json.dumps(post_response.model_dump()),
-            ex=3600
+            cache_key, json.dumps(post_response.model_dump()), ex=3600
         )
 
         return post_response
