@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.api.posts import router as posts_router
 from app.db.session import engine
-from app.models.post import Base
+from app.models.base import Base
 
 
 @asynccontextmanager
