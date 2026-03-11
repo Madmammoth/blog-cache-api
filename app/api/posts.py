@@ -38,7 +38,6 @@ async def update_post(post_id: int, data: PostCreate):
 
 @router.delete(
     "/{post_id}",
-    response_model=PostResponse,
     status_code=status.HTTP_204_NO_CONTENT,
 )
 async def delete_post(post_id: int):
@@ -46,5 +45,3 @@ async def delete_post(post_id: int):
 
     if not deleted:
         raise HTTPException(status_code=404, detail="Post not found")
-
-    return {"status": "deleted"}
