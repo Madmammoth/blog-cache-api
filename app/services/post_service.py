@@ -6,9 +6,15 @@ from app.schemas.post import PostCreate, PostResponse
 
 
 class PostService:
+    CACHE_TTL = 3600
+
+    @staticmethod
+    def _cache_key(post_id: int) -> str:
+        return f"post:{post_id}"
+
     @staticmethod
     async def get_post(post_id: int) -> PostResponse | None:
-        cache_key = f"post:{post_id}"
+        cache_key = PostService._cache_key(post_id)
         cached = await redis_client.get(cache_key)
 
         if cached:
@@ -23,7 +29,9 @@ class PostService:
         post_response = PostResponse.model_validate(post)
 
         await redis_client.set(
-            cache_key, json.dumps(post_response.model_dump()), ex=3600
+            cache_key,
+            json.dumps(post_response.model_dump()),
+            ex=PostService.CACHE_TTL,
         )
 
         return post_response
@@ -48,7 +56,7 @@ class PostService:
         if not post:
             return None
 
-        cache_key = f"post:{post_id}"
+        cache_key = PostService._cache_key(post_id)
         await redis_client.delete(cache_key)
 
         return PostResponse.model_validate(post)
@@ -60,7 +68,7 @@ class PostService:
         if not deleted:
             return False
 
-        cache_key = f"post:{post_id}"
+        cache_key = PostService._cache_key(post_id)
         await redis_client.delete(cache_key)
 
         return True
