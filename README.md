@@ -1,9 +1,5 @@
 # Blog API with Redis Cache
 
-Test assignment: Python Backend Developer
-
----
-
 ## Stack
 
 - FastAPI  
